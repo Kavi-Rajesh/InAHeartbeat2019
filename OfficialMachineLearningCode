@@ -2,7 +2,7 @@
 #YAY
 #NEW CODE PLEASE LOOK I JUST CHANGED IT
 #officialmachinelearningcode
-#check out the not very efficient and horrible code i added...hope it works
+#check out the not very efficient and horrible code i added...still not perfect
 
 # Load CSV using Pandas from URL
 import pandas
@@ -12,33 +12,46 @@ all_data = pandas.read_csv(url, names=names)
 print(data.shape)
 
 #somehow put data into list
+#don't change original
+original_data = []
 raw_data = []
 new_data = []
+  
+def find_peak(data, new_data):
+  counter = 0
+  for i in range(len(data)):
+      x = data[i]
+      y = data[i+1]
+      if x > y & x > 550 & x < 650 counter < 1:
+        new_data.append(x)
+        counter = 1
+        del data[0:y]      
+        
+def find_high(data, new_data):
+  counter = 0
+  for i in range(len(data)):
+      x = data[i]
+      y = data[i+1]
+      if x >= y & counter < 1:
+        new_data.append(x)
+        counter = 1
+        del data[0:y]
+        
+def find_low(data, new_data):
+  counter = 0
+  for i in range(len(data)):
+      x = data[i]
+      y = data[i+1]
+      if x < y & counter < 1:
+        new_data.append(x)
+        counter = 1
+        del data[0:y]
 
-def changed_data():
-  new_data.append()
-  
-def find_peak(raw_data):
-  counter = 0
-  for i in range(len(raw_data)):
-      x = raw_data[i]
-      y = raw_data[i+1]
-      if x > y & if counter < 1:
-        new_data.append(x)
-        counter = 1
-      
-def find_high(raw_data, peak_val):
-  counter = 0
-  for i in range(len(raw_data)):
-      x = raw_data[i]
-      y = raw_data[i+1]
-      if x >= y & if counter < 1 & x != peak_val:
-        new_data.append(x)
-        counter = 1
-  
-def find_low():
-  pass
-  
+for i in range(5)
+  find_peak(raw_data, new_data)
+  find_high(raw_data, new_data)
+  find_low(raw_data, new_data)
+
 # Load CSV using Pandas from URL
 import pandas
 url = '/Users/lavrajesh/Downloads/pulsesensorvalues.csv'
