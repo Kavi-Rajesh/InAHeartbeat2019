@@ -8,18 +8,29 @@ def find_peak(data, new_data):
   for i in range(len(data)):
       x = data[i]
       y = data[i+1]
-      if x >= y & x > 550 & x < 650:
+      if (x >= y) & (x > 550):
         new_data.append(x)
-        del data[0:y]
+        del data[0:i+1]
+        print(len(data))
         break
         
+def find_bottom(data):
+  for i in range(len(data)):
+      x = data[i]
+      y = data[i+1]
+      if x < y:
+        del data[0:i]
+        print(len(data))
+        break
+    
 def find_high(data, new_data):
   for i in range(len(data)):
       x = data[i]
       y = data[i+1]
       if x >= y:
         new_data.append(x)
-        del data[0:y]
+        del data[0:i]
+        print(len(data))
         break
         
 def find_low(data, new_data):
@@ -28,12 +39,14 @@ def find_low(data, new_data):
       y = data[i+1]
       if x < y:
         new_data.append(x)
-        del data[0:y]
+        del data[0:i]
+        print(len(data))
         break
 
 for i in range(5):
   find_peak(raw_data, new_data)
+  find_bottom(raw_data)
   find_high(raw_data, new_data)
   find_low(raw_data, new_data)
   
-  print(new_data)
+print(new_data)
