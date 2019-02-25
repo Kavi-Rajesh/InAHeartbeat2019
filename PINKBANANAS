@@ -1,23 +1,33 @@
-#NEW CODE PLEASE LOOK I JUST CHANGED IT
-#officialmachinelearningcode
-
-# Load CSV using Pandas from URL
-import pandas
-url = '/Users/lavrajesh/Downloads/pulsesensorvalues.csv'
-names = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13', 'd14', 'd15', 'checking']
-data = pandas.read_csv(url, names=names)
-print("CSV Values are ", data)
-y = data.pop('checking').values
+#Connecting to Bluetooth
 
 
-from sklearn.neural_network import MLPClassifier
-clf = MLPClassifier(solver='lbfgs' , alpha=1e-5, hidden_layer_sizes=(5,2), random_state=1)
-clf.fit(data, y)
-p = clf.predict([[0, 584, 0, 688, 0, 0, 653, 0, 443, 0, 530, 112, 636, 0, 0]])
-print("Your heart is ", p)
+import bluetooth
 
-#normal 637, 516, 456, 638, 516, 456, 643, 540, 455, 649, 506, 453, 632, 501, 461
-#irregular 900, 584, 148, 688, 589, 384, 653, 627, 443, 597, 530, 112, 636, 581, 421
-#irregular 0, 584, 0, 688, 0, 0, 653, 0, 443, 0, 530, 112, 636, 0, 0
+target_name = "PulseSensorProjectConnect"
+target_address = None
 
+nearby_devices = bluetooth.discover_devices()
 
+for bdaddr in nearby_devices:
+    if target_name == bluetooth.lookup_name( bdaddr ):
+        target_address = bdaddr
+        break
+
+if target_address is not None:
+    print "found target bluetooth device with address ", target_address
+else:
+    print "could not find target bluetooth device nearby"
+    
+server_socket = BluetoothSocket( RFCOMM )
+
+server_socket.bind(("", 3 ))
+server_socket.listen(1)
+
+client_socket, address = server_socket.accept()
+
+data = client_socket.recv(1024)
+
+print "received [%s]" % data
+
+client_socket.close()
+server_socket.close()
