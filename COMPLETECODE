@@ -93,24 +93,9 @@ while True:
 
   print(new_data)
 
-  #OFFICIALMACHINELEARNINGCODE
-
-  #officialmachinelearningcode
-  #YAY
-  #NEW CODE PLEASE LOOK I JUST CHANGED IT
-  #officialmachinelearningcode
-  #check out the not very efficient and horrible code i added...still not perfect
-
   # Load CSV using Pandas from URL
   import pandas
   url = "https://raw.githubusercontent.com/Kavi-Rajesh/OFFICIALLLLL2019999/master/pulsesensorvalues.csv"
-  names = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13', 'd14', 'd15', 'checking']
-  all_data = pandas.read_csv(url, names=names)
-  print(data.shape)
-
-  # Load CSV using Pandas from URL
-  import pandas
-  url = '/Users/lavrajesh/Downloads/pulsesensorvalues.csv'
   names = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13', 'd14', 'd15', 'checking']
   data = pandas.read_csv(url, names=names)
   print("CSV Values are ", data)
@@ -135,6 +120,4 @@ while True:
   del raw_data[0:]
   del new_data[0:]
 
-  #normal 637, 516, 456, 638, 516, 456, 643, 540, 455, 649, 506, 453, 632, 501, 461
-  #irregular 900, 584, 148, 688, 589, 384, 653, 627, 443, 597, 530, 112, 636, 581, 421
-  #irregular 0, 584, 0, 688, 0, 0, 653, 0, 443, 0, 530, 112, 636, 0, 0
+#END
