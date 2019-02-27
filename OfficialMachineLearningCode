@@ -1,8 +1,5 @@
 #officialmachinelearningcode
 #YAY
-#NEW CODE PLEASE LOOK I JUST CHANGED IT
-#officialmachinelearningcode
-#check out the not very efficient and horrible code i added...still not perfect
 
 # Load CSV using Pandas from URL
 import pandas
