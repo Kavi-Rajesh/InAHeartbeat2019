@@ -111,9 +111,9 @@ while True:
   else:
     output = 'IRREGULAR'
     #PURPLEBANANAS
-    client = Client("AC1193cd484ba9d4689d7a40711534ed6e", "1552d71bb5c803c27d5664b1490966c9")
-    client.messages.create(to="+16692240488", 
-                          from_="+13022618090", 
+    client = Client("", "")
+    client.messages.create(to="", 
+                          from_="", 
                           body="ALERT: IRREGULAR HEARTBEAT")
   print("Your heart is ", output)
 
