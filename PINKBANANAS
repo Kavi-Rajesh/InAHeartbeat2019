@@ -1,35 +1,16 @@
-#Connecting to Bluetooth
-#Need to have PyBlueZ package downloaded
+import serial
+#must have PySerial
 
-import bluetooth
+ser = serial.Serial('COM8', 9600, timeout=2)
 
-target_name = 'PulseSensorProjectConnect'
-target_address = None
-
-nearby_devices = bluetooth.discover_devices()
-print(nearby_devices)
-for dev in nearby_devices:
-    print(bluetooth.lookup_name(dev))
-    if target_name == bluetooth.lookup_name(dev):
-        target_address = dev
-        break
-
-if target_address is not None:
-    print("found target bluetooth device with address ", target_address)
-    server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-    port = 12
-    server_sock.bind(('94:E9:79:7C:72:08',port))
-    server_sock.listen(1)
-    
-    client_sock,address = server_sock.accept()
-    print("Accepted connection from ",address)
-    
-    data = client_sock.recv(1024)
-    print("received [%s]" % data)
-
-    client_sock.close()
-    server_sock.close()
-else:
-    print("could not find target bluetooth device nearby")
-    
-#Port must be even between 1 and 30
+while True:
+    try:
+        reading = ser.readline()
+        if not reading:
+            raise(serial.serialuti.SerialException)
+        w = str(reading)
+        q = w[2:5]
+        print(q)
+    except serial.serialuti.SerialException:
+            print("Exception")
+            break
