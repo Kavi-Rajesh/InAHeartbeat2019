@@ -1,12 +1,24 @@
-while True:
+port = ''
+num_of_readings = 300
+account_sid = ""
+auth_token = ""
+output_phone = "+1"
+our_phone = "+1"
+num_to_run = 1
 
-  #PINKBANANAS
+import serial
+from twilio.rest import Client
+import pandas
+from sklearn.neural_network import MLPClassifier
 
+#connect to serial port
+ser = serial.Serial(port, 9600, timeout=2)
+
+for i in range(num_to_run):
+
+#PINKBANANAS
   #Connecting to Bluetooth
-  #Need to have PyBlueZ package downloaded
-
-  import bluetooth
-  from twilio.rest import Client
+  #Need to have PySerial package downloaded
 
   target_name = 'PulseSensorProjectConnect'
   target_address = None
@@ -14,37 +26,21 @@ while True:
   raw_data = []
   new_data = []
 
-  nearby_devices = bluetooth.discover_devices()
-  print(nearby_devices)
-  for dev in nearby_devices:
-      print(bluetooth.lookup_name(dev))
-      if target_name == bluetooth.lookup_name(dev):
-          target_address = dev
-          break
-
-  for i in range(500):
-    if target_address is not None:
-        print("found target bluetooth device with address ", target_address)
-        server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-        port = 12
-        server_sock.bind(('94:E9:79:7C:72:08',port))
-        server_sock.listen(1)
-
-        client_sock,address = server_sock.accept()
-        print("Accepted connection from ",address)
-
-        d = client_sock.recv(1024)
-        raw_data.append(d)
-        print("received [%s]" % d)
-
-        client_sock.close()
-        server_sock.close()
-    else:
-        print("could not find target bluetooth device nearby")
-
-  #Port must be even between 1 and 30
-
-  #BLUEBANANAS
+  
+  for i in range(num_of_readings):
+    try:
+      reading = ser.readline()
+      if not reading:
+          raise(serial.serialutil.SerialException)
+      w = str(reading)
+      q = w[2:5]
+      print(q)
+      raw_data.append(int(q))
+    except serial.serialutil.SerialException:
+        print("Exception")
+        break
+  
+#BLUEBANANAS
 
   def find_peak(data, new_data):
     for i in range(len(data)):
@@ -93,16 +89,13 @@ while True:
 
   print(new_data)
 
-  # Load CSV using Pandas from URL
-  import pandas
+  #Load CSV using Pandas from URL
   url = "https://raw.githubusercontent.com/Kavi-Rajesh/OFFICIALLLLL2019999/master/pulsesensorvalues.csv"
   names = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13', 'd14', 'd15', 'checking']
   data = pandas.read_csv(url, names=names)
   print("CSV Values are ", data)
   y = data.pop('checking').values
 
-
-  from sklearn.neural_network import MLPClassifier
   clf = MLPClassifier(solver='lbfgs' , alpha=1e-5, hidden_layer_sizes=(5,2), random_state=1)
   clf.fit(data, y)
   p = clf.predict([[new_data]])
@@ -110,11 +103,14 @@ while True:
     output = 'REGULAR'
   else:
     output = 'IRREGULAR'
-    #PURPLEBANANAS
-    client = Client("", "")
-    client.messages.create(to="", 
-                          from_="", 
+    
+#PURPLEBANANAS
+    
+    client = Client(account_sid, auth_token)
+    client.messages.create(to=output_phone, 
+                          from_=our_phone, 
                           body="ALERT: IRREGULAR HEARTBEAT")
+    
   print("Your heart is ", output)
 
   del raw_data[0:]
