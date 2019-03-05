@@ -1,11 +1,13 @@
-#FILL OUT BELOW
-port = ''
+
+#fill out below
+
+port = 'COM10'
 num_of_readings = 300
-account_sid = ""
-auth_token = ""
-output_phone = "+1"
-our_phone = "+1"
-run = 1
+account_sid = "AC1193cd484ba9d4689d7a40711534ed6e"
+auth_token = "1552d71bb5c803c27d5664b1490966c9"
+output_phone = "+16692240488"
+our_phone = "+13022618090"
+run = 3
 
 import serial
 from twilio.rest import Client
@@ -54,14 +56,21 @@ for i in range(run):
           del data[0:i+1]
           print(len(data))
           break
+        elif x == data[len(data)-1]:
+          new_data.append(0)
+          break
+        
 
   def find_bottom(data):
     for i in range(len(data)-1):
         x = data[i]
         y = data[i+1]
         if x < y:
-          del data[0:i]
+          del data[0:i+1]
           print(len(data))
+          break
+        elif x == data[len(data)-1]:
+          new_data.append(0)
           break
 
   def find_high(data, new_data):
@@ -70,8 +79,11 @@ for i in range(run):
         y = data[i+1]
         if x >= y:
           new_data.append(x)
-          del data[0:i]
+          del data[0:i+1]
           print(len(data))
+          break
+        elif x == data[len(data)-1]:
+          new_data.append(0)
           break
 
   def find_low(data, new_data):
@@ -80,8 +92,11 @@ for i in range(run):
         y = data[i+1]
         if x < y:
           new_data.append(x)
-          del data[0:i]
+          del data[0:i+1]
           print(len(data))
+          break
+        elif x == data[len(data)-1]:
+          new_data.append(0)
           break
 
   for i in range(5):
