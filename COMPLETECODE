@@ -1,10 +1,11 @@
+#FILL OUT BELOW
 port = ''
 num_of_readings = 300
 account_sid = ""
 auth_token = ""
 output_phone = "+1"
 our_phone = "+1"
-num_to_run = 1
+run = 1
 
 import serial
 from twilio.rest import Client
@@ -14,14 +15,13 @@ from sklearn.neural_network import MLPClassifier
 #connect to serial port
 ser = serial.Serial(port, 9600, timeout=2)
 
-for i in range(num_to_run):
+for i in range(run):
+#while True:
 
-#PINKBANANAS
+  #PINKBANANAS
+
   #Connecting to Bluetooth
   #Need to have PySerial package downloaded
-
-  target_name = 'PulseSensorProjectConnect'
-  target_address = None
 
   raw_data = []
   new_data = []
@@ -32,18 +32,21 @@ for i in range(num_to_run):
       reading = ser.readline()
       if not reading:
           raise(serial.serialutil.SerialException)
-      w = str(reading)
-      q = w[2:5]
-      print(q)
-      raw_data.append(int(q))
+      w = reading
+      q = (str(w))[2:5]
+      try:
+        print(int(q))
+        raw_data.append(int(q))
+      except:
+        pass
     except serial.serialutil.SerialException:
         print("Exception")
         break
   
-#BLUEBANANAS
+  #BLUEBANANAS
 
   def find_peak(data, new_data):
-    for i in range(len(data)):
+    for i in range(len(data) - 1):
         x = data[i]
         y = data[i+1]
         if (x >= y) & (x > 550):
@@ -53,7 +56,7 @@ for i in range(num_to_run):
           break
 
   def find_bottom(data):
-    for i in range(len(data)):
+    for i in range(len(data)-1):
         x = data[i]
         y = data[i+1]
         if x < y:
@@ -62,7 +65,7 @@ for i in range(num_to_run):
           break
 
   def find_high(data, new_data):
-    for i in range(len(data)):
+    for i in range(len(data)-1):
         x = data[i]
         y = data[i+1]
         if x >= y:
@@ -72,7 +75,7 @@ for i in range(num_to_run):
           break
 
   def find_low(data, new_data):
-    for i in range(len(data)):
+    for i in range(len(data)-1):
         x = data[i]
         y = data[i+1]
         if x < y:
@@ -83,9 +86,13 @@ for i in range(num_to_run):
 
   for i in range(5):
     find_peak(raw_data, new_data)
+    print("found peak")
     find_bottom(raw_data)
+    print("found bottom")
     find_high(raw_data, new_data)
+    print("found high")
     find_low(raw_data, new_data)
+    print("found low")
 
   print(new_data)
 
@@ -98,14 +105,14 @@ for i in range(num_to_run):
 
   clf = MLPClassifier(solver='lbfgs' , alpha=1e-5, hidden_layer_sizes=(5,2), random_state=1)
   clf.fit(data, y)
-  p = clf.predict([[new_data]])
+  p = clf.predict([new_data])
   if p == 0:
     output = 'REGULAR'
   else:
     output = 'IRREGULAR'
     
-#PURPLEBANANAS
-    
+    #PURPLEBANANAS
+    #sends messages
     client = Client(account_sid, auth_token)
     client.messages.create(to=output_phone, 
                           from_=our_phone, 
