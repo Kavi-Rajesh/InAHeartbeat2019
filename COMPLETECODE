@@ -1,12 +1,12 @@
 
 #fill out below
 
-port = 'COM10'
+port = ''
 num_of_readings = 300
-account_sid = "AC1193cd484ba9d4689d7a40711534ed6e"
-auth_token = "1552d71bb5c803c27d5664b1490966c9"
-output_phone = "+16692240488"
-our_phone = "+13022618090"
+account_sid = ""
+auth_token = ""
+output_phone = "+1"
+our_phone = "+1"
 run = 3
 
 import serial
