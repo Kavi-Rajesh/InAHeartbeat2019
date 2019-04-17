@@ -1,2 +1,2 @@
-# InaHeartbeat2018-
-Synopsys Project 2019- In a HeartBeat
+# InaHeartBeat
+Started 2018. Sahana, Kavi, and Kaitlyn. 
